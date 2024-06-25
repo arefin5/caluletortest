@@ -1,33 +1,17 @@
-version: '3.8'
-
+version: '3'
 services:
-  db:
-    image: mysql:8.0
-    container_name: calculator_db
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: calculator_db
-      MYSQL_USER: calculator_user
-      MYSQL_PASSWORD: password
-    ports:
-      - "3306:3306"
-    volumes:
-      - db_data:/var/lib/mysql
-
   app:
-    build: .
-    container_name: calculator_app
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "5000:5000"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/calculator_db
-      - SPRING_DATASOURCE_USERNAME=calculator_user
-      - SPRING_DATASOURCE_PASSWORD=password
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - SPRING_JPA_SHOW_SQL=true
-      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
+      - "5000:8080"  # Adjust port mapping as needed
     depends_on:
-      - db
-
-volumes:
-  db_data:
+      - db  # Assuming you have a database service defined
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: calculator_db
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"  # Adjust MySQL port mapping as needed

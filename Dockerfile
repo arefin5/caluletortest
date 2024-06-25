@@ -1,14 +1,11 @@
-# Use the official OpenJDK as a parent image
+# Use OpenJDK 17 JDK Alpine as base image
 FROM openjdk:17-jdk-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the jar file into the container
+# Copy the packaged JAR file into the container at /app
 COPY target/calculator-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose port 5000
-EXPOSE 5000
-
-# Command to run the application
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+# Specify the command to run your application
+CMD ["java", "-jar", "app.jar"]
