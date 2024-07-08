@@ -32,6 +32,10 @@ public class AuthController {
 
     @PostMapping("/register")
     public User register(@RequestBody User user) {
+        // Check if user with the same username already exists
+        if (userService.loadUserByUsername(user.getUsername()) != null) {
+            throw new RuntimeException("User with username " + user.getUsername() + " already exists");
+        }
         return userService.save(user);
     }
 }
